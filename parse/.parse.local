@@ -1,0 +1,10 @@
+{
+  "applications": {
+    "Pikado": {
+      "applicationId": "Osy03fANgKzEjZvux7fjxNIgxC4QzrE3syBIF9Ir"
+    },
+    "_default": {
+      "link": "Pikado"
+    }
+  }
+}
