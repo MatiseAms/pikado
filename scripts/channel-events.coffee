@@ -11,9 +11,6 @@
 # Author:
 #   mmeester
 
-
-
-
 module.exports = (robot) ->
   robot.enter (res) ->
     console.log(res.message.user)
