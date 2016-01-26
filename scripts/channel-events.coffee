@@ -1,11 +1,17 @@
 # Description:
 #   Events when user enters a channel, checks if user is already in parse.com
 #
-# Notes:
+# Commands:
 #
+# Notes:
 #   These are from the scripting documentation: https://github.com/github/hubot/blob/master/docs/scripting.md
 #   TODO:
 #   - hook-up to parse.com
+#
+# Author:
+#   mmeester
+
+
 
 
 module.exports = (robot) ->

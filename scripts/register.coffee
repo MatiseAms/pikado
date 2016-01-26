@@ -1,15 +1,19 @@
 # Description:
 #   Registration script to set user to parse.com
 #
-# Notes:
+# Commands:
+#   hubot register - register user to the game
 #
+# Notes:
 #   These are from the scripting documentation: https://github.com/github/hubot/blob/master/docs/scripting.md
 #   TODO:
 #   - hook-up to parse.com
-
+#
+# Author:
+#   mmeester
 
 module.exports = (robot) ->
-  robot.hear /register/i, (res) ->
+  robot.respond /register/i, (res) ->
     registerData = {}
     registerData.slackUserName = res.message.user.name
     registerData.realName = res.message.user.real_name
@@ -25,4 +29,4 @@ module.exports = (robot) ->
     robot.http('https://api.parse.com/1/functions/registerUser')
       .headers({'Content-Type': 'application/json', 'X-Parse-Application-Id': 'Osy03fANgKzEjZvux7fjxNIgxC4QzrE3syBIF9Ir', 'X-Parse-REST-API-Key': 'xSUMLvhVG7N1cagDXm1k4IqQOhkYC8MUmYwG6ul5'})
       .post(JSON.stringify(registerData)) ->
-      res.send "@" + registerData.slackUserName + " You're now registered"
+      res.send "@" + registerData.slackUserName + " You're registered now challenge a user by using `pikado challenge [name]`"
