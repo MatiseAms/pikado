@@ -11,7 +11,7 @@
 module.exports = (robot) ->
   robot.hear /register/i, (res) ->
     registerData = {}
-    registerData.userName = res.message.user.name
+    registerData.slackUserName = res.message.user.name
     registerData.realName = res.message.user.real_name
     registerData.email = res.message.user.email_address
     # slack profile stuff
@@ -23,8 +23,6 @@ module.exports = (robot) ->
 
     res.send "Hi " + registerData.realName + ", welcome to Pikado, wait a second so I can register you"
     robot.http('https://api.parse.com/1/functions/registerUser')
-    .headers({'Content-Type': 'application/json', 'X-Parse-Application-Id': 'Osy03fANgKzEjZvux7fjxNIgxC4QzrE3syBIF9Ir', 'X-Parse-REST-API-Key': 'xSUMLvhVG7N1cagDXm1k4IqQOhkYC8MUmYwG6ul5'})
-    .post(JSON.stringify(registerData))
-    setTimeout () ->
-        res.send "@" + registerData.userName + " You're now registered"
-      , 2000
+      .headers({'Content-Type': 'application/json', 'X-Parse-Application-Id': 'Osy03fANgKzEjZvux7fjxNIgxC4QzrE3syBIF9Ir', 'X-Parse-REST-API-Key': 'xSUMLvhVG7N1cagDXm1k4IqQOhkYC8MUmYwG6ul5'})
+      .post(JSON.stringify(registerData)) ->
+      res.send "@" + registerData.slackUserName + " You're now registered"
