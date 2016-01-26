@@ -19,3 +19,5 @@ module.exports = (robot) ->
   robot.respond /challenge (.*)/i, (res) ->
     challenger = res.message.user.name
     challenged = res.match[1]
+
+    res.send "@"+challenger+" challenged @"+challenged+" use `pikado accept` to accept or `pikado reject` to decline"
