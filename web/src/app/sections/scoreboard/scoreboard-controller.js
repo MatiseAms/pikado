@@ -27,6 +27,11 @@ angular.module('Pikado')
 				}else if(evt.feedObject.user.objectId===$scope.challenged.id){
 					$scope.challenged.scores.push({remaining: evt.feedObject.remaining, score: evt.feedObject.score});
 				}
+				if($scope.eyes === "eyesLeft"){
+					$scope.eyes = "eyesRight";
+				}else{
+					$scope.eyes = "eyesLeft";
+				}
 				$scope.$applyAsync();
 			}
 		});
