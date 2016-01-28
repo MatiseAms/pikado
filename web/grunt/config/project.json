@@ -1,0 +1,11 @@
+{
+	"src": {
+		"root": "src/",
+		"vendor": "src/vendor/",
+		"app": "src/app/"
+	},
+	"dist": {
+		"root": "dist/",
+		"vendor": "dist/vendor/"
+	}
+}

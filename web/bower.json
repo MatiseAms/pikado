@@ -1,0 +1,25 @@
+{
+  "name": "Pikado",
+  "dependencies": {
+    "angular": "~1.4.9",
+    "angular-ui-router": "~0.2.17",
+    "foundation-sites": "~6.1.2",
+    "parse": "~1.6.13",
+    "modernizr": "2.8.3"
+  },
+  "exportsOverride": {
+    "foundation": {
+      "js": "js/*.js",
+      "scss": "scss/*"
+    },
+    "angular": [
+      "angular.js"
+    ],
+    "angular-ui-router": [
+      "release/angular-ui-router.js"
+    ],
+    "modernizr": [
+      "modernizr.js"
+    ]
+  }
+}

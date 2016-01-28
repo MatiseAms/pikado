@@ -1,0 +1,593 @@
+@mixin calc($property, $expression) {
+  #{$property}: -moz-calc(#{$expression});
+  #{$property}: -webkit-calc(#{$expression});
+  #{$property}: calc(#{$expression});
+}
+
+@mixin selection {
+    ::-moz-selection { @content; }
+    ::selection { @content; }
+}
+// Flexbox Mixins
+// Copyright (c) 2013 Brian Franco
+
+//----------------------------------------------------------------------
+// Flexbox Containers
+
+@mixin flexbox {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flexbox;
+	display: flex;
+}
+%flexbox { @include flexbox; }
+
+//----------------------------------
+
+@mixin inline-flex {
+	display: -webkit-inline-box;
+	display: -webkit-inline-flex;
+	display: -moz-inline-flex;
+	display: -ms-inline-flexbox;
+	display: inline-flex;
+}
+
+%inline-flex { @include inline-flex; }
+
+//----------------------------------------------------------------------
+// Flexbox Direction
+
+
+@mixin flex-direction($value: row) {
+	@if $value == row-reverse {
+		-webkit-box-direction: reverse;
+		-webkit-box-orient: horizontal;
+	} @else if $value == column {
+		-webkit-box-direction: normal;
+		-webkit-box-orient: vertical;
+	} @else if $value == column-reverse {
+		-webkit-box-direction: reverse;
+		-webkit-box-orient: vertical;
+	} @else {
+		-webkit-box-direction: normal;
+		-webkit-box-orient: horizontal;
+	}
+	-webkit-flex-direction: $value;
+	-moz-flex-direction: $value;
+	-ms-flex-direction: $value;
+	flex-direction: $value;
+}
+	// Shorter version:
+	@mixin flex-dir($value: false) { @include flex-direction($value); }
+
+//----------------------------------------------------------------------
+// Flexbox Wrap
+
+@mixin flex-wrap($value: nowrap) {
+	// No Webkit Box fallback.
+	-webkit-flex-wrap: $value;
+	-moz-flex-wrap: $value;
+	@if $value == nowrap {
+		-ms-flex-wrap: none;
+	} @else {
+		-ms-flex-wrap: $value;
+	}
+	flex-wrap: $value;
+}
+
+//----------------------------------------------------------------------
+// Flexbox Flow (shorthand)
+
+@mixin flex-flow($values: (row nowrap)) {
+	// No Webkit Box fallback.
+	-webkit-flex-flow: $values;
+	-moz-flex-flow: $values;
+	-ms-flex-flow: $values;
+	flex-flow: $values;
+}
+
+//----------------------------------------------------------------------
+// Flexbox Order
+
+@mixin order($int: 0) {
+	-webkit-box-ordinal-group: $int + 1;
+	-webkit-order: $int;
+	-moz-order: $int;
+	-ms-flex-order: $int;
+	order: $int;
+}
+
+//----------------------------------------------------------------------
+// Flexbox Grow
+
+
+@mixin flex-grow($int: 0) {
+	-webkit-box-flex: $int;
+	-webkit-flex-grow: $int;
+	-moz-flex-grow: $int;
+	-ms-flex-positive: $int;
+	flex-grow: $int;
+}
+
+//----------------------------------------------------------------------
+// Flexbox Shrink
+
+
+@mixin flex-shrink($int: 1) {
+	-webkit-flex-shrink: $int;
+	-moz-flex-shrink: $int;
+	-ms-flex-negative: $int;
+	flex-shrink: $int;
+}
+
+//----------------------------------------------------------------------
+// Flexbox Basis
+
+
+@mixin flex-basis($value: auto) {
+	-webkit-flex-basis: $value;
+	-moz-flex-basis: $value;
+	-ms-flex-preferred-size: $value;
+	flex-basis: $value;
+}
+
+//----------------------------------------------------------------------
+// Flexbox "Flex" (shorthand)
+
+
+@mixin flex($fg: 1, $fs: null, $fb: null) {
+
+	// Set a variable to be used by box-flex properties
+	$fg-boxflex: $fg;
+
+	// Box-Flex only supports a flex-grow value so let's grab the
+	// first item in the list and just return that.
+	@if type-of($fg) == 'list' {
+		$fg-boxflex: nth($fg, 1);
+	}
+
+	-webkit-box-flex: $fg-boxflex;
+	-webkit-flex: $fg $fs $fb;
+	-moz-box-flex: $fg-boxflex;
+	-moz-flex: $fg $fs $fb;
+	-ms-flex: $fg $fs $fb;
+	flex: $fg $fs $fb;
+}
+
+//----------------------------------------------------------------------
+// Flexbox Justify Content
+
+@mixin justify-content($value: flex-start) {
+	@if $value == flex-start {
+		-webkit-box-pack: start;
+		-ms-flex-pack: start;
+	} @else if $value == flex-end {
+		-webkit-box-pack: end;
+		-ms-flex-pack: end;
+	} @else if $value == space-between {
+		-webkit-box-pack: justify;
+		-ms-flex-pack: justify;
+	} @else {
+		-webkit-box-pack: $value;
+		-ms-flex-pack: $value;
+	}
+	-webkit-justify-content: $value;
+	-moz-justify-content: $value;
+	justify-content: $value;
+}
+	// Shorter version:
+	@mixin flex-just($value: flex-start) { @include justify-content($value); }
+
+//----------------------------------------------------------------------
+// Flexbox Align Items
+
+
+@mixin align-items($value: stretch) {
+	@if $value == flex-start {
+		-webkit-box-align: start;
+		-ms-flex-align: start;
+	} @else if $value == flex-end {
+		-webkit-box-align: end;
+		-ms-flex-align: end;
+	} @else {
+		-webkit-box-align: $value;
+		-ms-flex-align: $value;
+	}
+	-webkit-align-items: $value;
+	-moz-align-items: $value;
+	align-items: $value;
+}
+
+//----------------------------------------------------------------------
+// Flexbox Align Self
+
+
+@mixin align-self($value: auto) {
+	// No Webkit Box Fallback.
+	-webkit-align-self: $value;
+	-moz-align-self: $value;
+	@if $value == flex-start {
+		-ms-flex-item-align: start;
+	} @else if $value == flex-end {
+		-ms-flex-item-align: end;
+	} @else {
+		-ms-flex-item-align: $value;
+	}
+	align-self: $value;
+}
+
+//----------------------------------------------------------------------
+// Flexbox Align Content
+
+@mixin align-content($value: stretch) {
+	// No Webkit Box Fallback.
+	-webkit-align-content: $value;
+	-moz-align-content: $value;
+	@if $value == flex-start {
+		-ms-flex-line-pack: start;
+	} @else if $value == flex-end {
+		-ms-flex-line-pack: end;
+	} @else {
+		-ms-flex-line-pack: $value;
+	}
+	align-content: $value;
+}
+
+
+// MAKE EXTEND IN MEDIA QUERY POSSIBLE
+
+@mixin breakpoint($breakpoint) {
+      // Get the width from the keyword `$breakpoint`
+      // Or `null` if the keyword doesn't exist in `$breakpoints` map
+      $value: map-get($breakpoints, $breakpoint);
+
+  // If `$breakpoint` exists as a key in `$breakpoints`
+  @if $value != null {
+        // Update `$current-breakpoint`
+        $current-breakpoint: $breakpoint;
+
+    // Open a media query block
+    @media (min-width: $value) {
+      // Let the user dump content
+      @content;
+    }
+
+    // Then reset `$current-breakpoint` to `$default-breakpoint` (root)
+    $current-breakpoint: $default-breakpoint;
+  }
+
+  // If `$breakpoint` doesn't exist in `$breakpoints`,
+  // Warn the user and do nothing
+  @else {
+    @warn "Invalid breakpoint `#{$breakpoint}`.";
+  }
+}
+@mixin optional-at-root($sel) {
+  @at-root #{if(not &, $sel, selector-append(&, $sel))} {
+    @content;
+  }
+}
+
+@mixin placeholder {
+  @include optional-at-root('::-webkit-input-placeholder') {
+    @content;
+  }
+
+  @include optional-at-root(':-moz-placeholder') {
+    @content;
+  }
+
+  @include optional-at-root('::-moz-placeholder') {
+    @content;
+  }
+
+  @include optional-at-root(':-ms-input-placeholder') {
+    @content;
+  }
+}
+
+@mixin border-radius($radius: $base-radius) {
+  -moz-border-radius: $radius;
+  -webkit-border-radius: $radius;
+  -ms-border-radius: $radius;
+  border-radius: $radius;
+}
+
+@mixin extend($name) {
+  @extend %#{$name};
+}
+
+@mixin size($size,$lineheight: false) {
+  width: nth($size,1);
+  @if length($size) > 1{
+	  height: nth($size,2);
+  }
+  @else {
+	  height: nth($size,1);
+  }
+  @if $lineheight == true{
+	  height: nth($size,1);
+  }
+}
+@mixin position($list){
+	top: nth($list,1);
+	right: nth($list,2);
+	bottom: nth($list,3);
+	left: nth($list,4);
+}
+
+
+@mixin bp($breakpoint){
+  @media only screen and (max-width: #{map-get($grid-size,$breakpoint)}px) {
+    @content;
+  }
+}
+
+@mixin screen-max($breakpoint){
+  @media only screen and (max-width: $breakpoint) {
+    @content;
+  }
+}
+@mixin screen-min($breakpoint){
+  @media only screen and (min-width: $breakpoint) {
+    @content;
+  }
+}
+@mixin screen($breakpoint1,$breakpoint1){
+  @media only screen and (min-width: $breakpoint1) and (max-width: $breakpoint2) {
+    @content;
+  }
+}
+// =============================================================================
+// String Replace
+// =============================================================================
+
+@function str-replace($string, $search, $replace: "") {
+	$index: str-index($string, $search);
+
+	@if $index {
+		@return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+	}
+
+	@return $string;
+}
+@mixin font-face( $name,  $font-files,  $eot: false, $weight: normal, $style: normal) {
+  $iefont: unquote("#{$eot}?#iefix");
+  @font-face {
+    font-family: quote($name);
+    @if $eot {
+      src: font-url($eot);
+      $font-files: font-url($iefont) unquote("format('eot')"), $font-files;
+    }
+    src: $font-files;
+    @if $weight {
+      font-weight: $weight;
+    }
+    @if $style {
+      font-style: $style;
+    }
+  }
+}
+
+@mixin font-include($name, $file, $weight: normal, $type: normal) {
+//	@include font-face("#{$name}", font-files("#{$file}.woff", "#{$file}.ttf", "#{$file}.svg", "#{$file}.otf"), "#{$file}.eot", $weight, $type);
+	@font-face {
+		font-family: $name;
+		src:url("#{$base-fontpath}/#{$file}.eot?#iefix") format('embedded-opentype'),/* IE6-IE8 */
+  	  url("#{$base-fontpath}/#{$file}.woff") format('woff'),/* Pretty Modern Browsers */
+			url("#{$base-fontpath}/#{$file}.ttf") format('truetype'),/* Safari, Android, iOS */
+			url("#{$base-fontpath}/#{$file}.svg##{$name}") format('svg'); /* Legacy iOS */
+		font-weight: $weight;
+		font-style: $type;
+	}
+}
+
+@mixin font-list($title,$name,$weights,$type: normal){
+	$italic: '';
+	@if $type == 'italic'{
+		$italic: 'Italic';
+	}
+	@for $i from 1 through length($weights) {
+//		$weight: unquote("#{nth($weights,$i)}");
+    $weight: nth($weights,$i);
+		@include font-include($title,#{$name}#{nth($weight,1)}#{$italic},nth($weight,2),$type);
+	}
+}
+
+@mixin font-size($size) {
+  font-size: $size;
+  font-size: calculateRem($size);
+}
+
+@mixin font($font-size, $line-height: $font-size, $color: inherit, $font-family: inherit){
+	font-size: rem-calc($font-size);
+	line-height: rem-calc($line-height);
+	color: $color;
+	font-family: $font-family;
+}
+
+@mixin background($url,$size: contain,$position: center center, $repeat: no-repeat){
+  background-image: url(#{$base-img-dir}/#{$url});
+	background-size: $size;
+  background-position: $position;
+  background-repeat: $repeat;
+}
+
+@mixin radial-gradient($from, $to) {
+    background: -moz-radial-gradient(center, circle cover, $from 0%, $to 100%);
+    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, $from), color-stop(100%, $to));
+    background: -webkit-radial-gradient(center, circle cover, $from 0%, $to 100%);
+    background: -o-radial-gradient(center, circle cover, $from 0%, $to 100%);
+    background: -ms-radial-gradient(center, circle cover, $from 0%, $to 100%);
+    background: radial-gradient(center, circle cover, $from 0%, $to 100%);
+    background-color: $from;
+}
+
+// transition simplified
+
+@mixin fade($value: $transition){
+	transition: $value;
+}
+
+// Animation Mixin
+
+@mixin animate($animation, $duration: 1s, $repeat: infinite, $easing: ease-in-out) {
+   animation: $animation $duration $repeat $easing;
+}
+
+
+// Keyframes Mixin
+// https://gist.github.com/ericam/1607696
+
+@mixin keyframes($name) {
+	@-webkit-keyframes #{$name} {
+		@content;
+	}
+	@-moz-keyframes #{$name} {
+		@content;
+	}
+	@-ms-keyframes #{$name} {
+		@content;
+	}
+	@keyframes #{$name} {
+		@content;
+	}
+}
+
+@mixin parent {
+  @each $selector in & {
+    @if length($selector) == 1 {
+      $selector: nth($selector, 1);
+    }
+    $l: length($selector);
+
+    @if ($l == 1) {
+      @error "Used parent mixin on a top-level selector";
+    } @else {
+      $parent: nth($selector,1);
+      @for $i from 2 to $l {
+        $parent: append($parent,nth($selector,$i));
+      }
+
+      @at-root #{$parent} {
+        @content;
+      }
+    }
+  }
+}
+
+@mixin menu($width: 2rem, $height: .25rem, $gutter: .25rem, $color: $white, $round: $border-radius, $transition-duration: $transition) {
+  $menu-height: $height !global;
+  $menu-gutter: $gutter !global;
+  user-select: none; position: absolute; margin:#{$height + $gutter} auto; text-indent: -999em; text-align: left; top: 50%; left: 50%; margin-left: -#{$width/2}; margin-top: -#{$height/2};
+  @include parent { position: absolute; }
+
+  &, &:before, &:after{ display: block; width: $width; height: $height; background-color: $color; @include fade($transition-duration); opacity: 1;
+    @if $round != 0 { border-radius: $round; }
+  }
+  &:before, &:after{ position: absolute; content: ""; }
+  &:before{ top: -($height + $gutter); }
+  &:after{ top: $height + $gutter; }
+}
+
+@mixin menu-close {
+  &:before, &:after{ top: 0px; margin-top: -#{($menu-height/2) + ($menu-gutter + $menu-height)}; @content; }
+  &{ background-color: transparent; }
+  &:before{ transform: translateY($menu-gutter + $menu-height) rotate(45deg); }
+  &:after{ transform: translateY($menu-gutter + $menu-height) rotate(-45deg); }
+}
+@mixin menu-body{
+	&,&:before, &:after{ @content; }
+}
+
+@mixin menu-close-body{
+	&:before, &:after{ @content; }
+}
+@mixin input-radio($width: 1rem, $height: 1rem, $margin: 0, $spacing: .2rem, $bg-body: $white, $bg-check: $black, $round: 50%){
+	&{ display: none; }
+	@include parent{
+		input[type=radio] + label{ padding-left: $width + $margin; position: relative; cursor: pointer;
+			&:before{ content:""; display: block; position: absolute; left: 0px; top: 0px; width: $width; height: $height; background: $bg-body;
+			  @if $round != 0 { border-radius: $round; }
+			}
+			&:after{ content:""; display: block; position: absolute; left: $spacing; top: $spacing; width: ($width - ($spacing*2)); height: ($width - ($spacing*2)); background: $bg-check; border-radius: $round; opacity: 0; @include fade;
+			}
+		}
+		input[type=radio]:checked{
+			& + label:after{ opacity: 1; @include fade; }
+		}
+	}
+}
+@mixin input-checkbox($width: 1rem, $height: 1rem, $margin: 0, $spacing: .2rem, $bg-body: $white, $bg-check: $black, $round: 50%){
+	&{ display: none; }
+	@include parent{
+		input[type=checkbox] + label{ padding-left: $width + $margin; position: relative; cursor: pointer;
+			&:before{ content:""; display: block; position: absolute; left: 0px; top: 0px; width: $width; height: $height; background: $bg-body;
+			  @if $round != 0 { border-radius: $round; }
+			}
+			&:after{ content:""; display: block; position: absolute; left: $spacing; top: $spacing; width: ($width - ($spacing*2)); height: ($width - ($spacing*2)); background: $bg-check; border-radius: $round; opacity: 0; @include fade;
+			}
+		}
+		input[type=checkbox]:checked{
+			& + label:after{ opacity: 1; @include fade; }
+		}
+	}
+}
+@mixin input-body{
+	@include parent{
+		input + label{
+			&:before{ @content; }
+		}
+	}
+}
+@mixin input-label{
+	@include parent{
+		input + label{ @content; }
+	}
+}
+@mixin input-check{
+	@include parent{
+		input:checked + label:after{ @content; }
+	}
+}
+@mixin input-body-checked{
+	@include parent{
+		input:checked + label{
+			&:before{ @content; }
+		}
+	}
+}
+@mixin input-label-checked{
+	@include parent{
+		input:checked + label{ @content; }
+	}
+}
+@function elementCount($end){
+  $elements: ();
+  @for $i from 1 through $end{
+      $element: '&:nth-child(#{$i}):nth-last-child(#{(($end + 1) - $i)}),';
+      $elements: prepend($element,$elements);
+  }
+  @return $elements;
+}
+
+
+@mixin createElements($amount,$type: false){
+  @for $i from 1 through $amount{
+    @if $type == false{
+      #{elementCount($i)}{
+        @content;
+      }
+    } @else if $type == 'width'{
+      #{elementCount($i)}{
+       width: percentage(1/$i);
+      }
+    }
+  }
+}
+@mixin wildcard($value,$type:'class'){
+  &[#{$type}^="#{$value}"],&[#{$type}*=" #{$value}"]{
+    @content;
+  }
+}
