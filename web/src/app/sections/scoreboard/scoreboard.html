@@ -1,8 +1,8 @@
-<section id="scoreboard" class="canvas">
+<section id="scoreboard" class="canvas" ng-class="eyes">
 
   <header>
     <div class="left">
-      <h2>Tim</h2>
+      <h2>{{challenger.name}}</h2>
     </div>
     <div class="mid">
       <?xml version="1.0" encoding="utf-8"?>
@@ -71,30 +71,16 @@
 
     </div>
     <div class="right">
-      <h2>Seb</h2>
+      <h2>{{challenged.name}}</h2>
     </div>
   </header>
 
   <div class="board">
     <ul>
-      <li><span>301</span></li>
-      <li><span>121</span></li>
-      <li><span>41</span></li>
-      <li><span>20</span></li>
-      <li><span>301</span></li>
-      <li><span>121</span></li>
-      <li><span>41</span></li>
-      <li><span>20</span></li>
+      <li ng-repeat="score in challenger.scores" ng-attr-data-score="{{score.score}}"><span>{{score.remaining}}</span></li>
     </ul>
     <ul>
-      <li><span>301</span></li>
-      <li><span>121</span></li>
-      <li><span>41</span></li>
-      <li><span>20</span></li>
-      <li><span>301</span></li>
-      <li><span>121</span></li>
-      <li><span>41</span></li>
-      <li><span>20</span></li>
+      <li ng-repeat="score in challenged.scores" ng-attr-data-score="{{score.score}}"><span>{{score.remaining}}</span></li>
     </ul>
   </div>
 

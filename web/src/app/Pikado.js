@@ -69,7 +69,7 @@ angular.module('Pikado', [
 				controller: 'HomeController as homeCtrl'
 			})
 			.state('scoreboard', {
-				url: '/scoreboard',
+				url: '/scoreboard/:id',
 				parent: 'scores',
 				templateUrl: 'sections/scoreboard/scoreboard.html',
 				controller: 'ScoreboardController as ScoreboardCtrl'
@@ -99,9 +99,10 @@ angular.module('Pikado', [
 		// use the HTML5 History API
 		$locationProvider.html5Mode(true);
 	}])
-	.run(['$rootScope', '$document', function($rootScope, $document) {
+	.run(['$rootScope', '$document', 'ParseService', function($rootScope, $document, ParseService) {
 		'use strict';
 
+		ParseService.initialize();
 
 		$document.on('keydown', function(e) {
 			if (e.which === 8) {
