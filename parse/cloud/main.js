@@ -19,9 +19,11 @@ var User = require('cloud/User'),
     Parse.Cloud.define('choiceChallenge', Game.choice);
     Parse.Cloud.define('finishGame', Game.finish);
 
-
     // Game event functions
     Parse.Cloud.afterSave("Game", Game.afterSave);
 
     // Score cloud function
     Parse.Cloud.define('submitScore', Score.submit);
+
+    // Game event functions
+    Parse.Cloud.afterSave("Score", Score.afterSave);
