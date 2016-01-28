@@ -31,47 +31,45 @@ section{
           //background-image: url('../img/pikado.svg'); background-size: 75%; background-position: center center; background-repeat: no-repeat;
           svg{ max-width: 75%;
             g{ transition: $transition;
-              &#eyeleft{
-                .pupil{ }
+              &#eyeleft,&#eyeright{
+                .pupil{ transition: $transition; }
               }
-              &#eyeright{
-                .pupil{ }
-              }
-            }
-            .turn-left &{
-              #eyeleft .pupil{ transform: translateX(-50%); }
-              #eyeright .pupil{ transform: translateX(-50%); }
-            }
-            .turn-right &{
-              #eyeleft .pupil{ transform: translateX(50%); }
-              #eyeright .pupil{ transform: translateX(50%); }
-            }
-            .turn-bad &{
-              #eyebrowleft{ transform: translateY(25%); }
-              #eyebrowright{ transform: translateY(25%); }
-            }
-            .turn-sad &{
-              #eyebrowleft{ transform: translateY(25%); }
-              #eyebrowright{ transform: translateY(25%); }
-              #eyeleft .pupil{ transform: translateY(50%); }
-              #eyeright .pupil{ transform: translateY(50%); }
             }
           }
         }
       }
+    }
+    &.eyesLeft{
+      svg #eyeleft .pupil{ transform: translate(-50%,10%); }
+      svg #eyeright .pupil{ transform: translate(-50%,10%); }
+    }
+    &.eyesRight{
+      svg #eyeleft .pupil{ transform: translate(50%,10%); }
+      svg #eyeright .pupil{ transform: translate(50%,10%); }
+    }
+    &.turn-bad{
+      svg #eyebrowleft{ transform: translateY(25%); }
+      svg #eyebrowright{ transform: translateY(25%); }
+    }
+    &.turn-sad{
+      svg #eyebrowleft{ transform: translateY(25%); }
+      svg #eyebrowright{ transform: translateY(25%); }
+      svg #eyeleft .pupil{ transform: translateY(50%); }
+      svg #eyeright .pupil{ transform: translateY(50%); }
     }
 
     .board{ position: absolute; bottom: 0px; left: 50%; transform: translateX(-50%); background: color(light); border-radius: 20px 20px 0 0; width: 45%; font-size: 0rem;
       ul{ display: inline-block; padding: 5% 0; counter-reset: scores;
         @include createElements(4,'width');
         &:nth-child(2n){ background: rgba(color(dark),0.1); }
-        li{ counter-increment: scores; font-size: 3rem; text-align: right; padding: 0 30% 0 10%; position: relative;
+        li{ counter-increment: scores; font-size: 3rem; text-align: center; padding: 0 30% 0 10%; position: relative;
           &:before,&:after{ color: color(naranja); font-size: 2rem; display: inline-block; padding: 2%; position: absolute; width: 30%; text-align: center; margin-top: 5px;}
           &:before{ content: none; }
           &:after{ content: counter(scores); right: 0px;}
 
           span{ position: relative;
             &:before{ content:""; width: 120%; height: 10%; border-radius: 4px; background: color(naranja); display: block; position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%) rotate(-10deg); }
+            &:after{ content: attr(data-score); position: absolute; left: 0; margin-left: 130%; margin-top: 20%; font-size: 2rem; opacity: 0.15; }
           }
           &:nth-child(2n){
             span:before{ transform: translate(-50%,-50%) rotate(10deg);}
@@ -79,12 +77,27 @@ section{
           &:last-child span:before{ content: none; }
         }
         &:nth-child(2n){
-          li{ text-align: left; padding: 0 10% 0 30%;;
+          li{ text-align: center; padding: 0 10% 0 30%;;
             &:before{ content: counter(scores); left: 0px; }
             &:after{ content: none; }
+            span:after{ margin-right: 130%; right: 0; left: auto; margin-left: auto; }
           }
         }
       }
     }
+    footer{
+      .left,.right{ width: 20%; height: 40%; position: absolute; bottom: 0px; background: #666; transform-origin: 50% 100%; border-radius: 40px; overflow: hidden;
+        &:before{ content:""; display: block; height: 100%; width: 50%; background: rgba(color(light),.2); }
+        span{ position: absolute; left: 50%; top: 50%; font-size: 5rem; color: white; font-weight: $font-bold; text-shadow: .2rem .2rem 0 rgba(black,.2); }
+      }
+      .left{ left: 0px; transform: translateX(-50%) rotate(45deg);
+        span{ transform: translate(-50%,-50%) rotate(-45deg); }
+      }
+      .right{ right: 0px; transform: translateX(50%) rotate(-45deg);
+        span{ transform: translate(-50%,-50%) rotate(45deg); }
+      }
+    }
+    &.eyesLeft footer .left{ background-color: color(naranja); }
+    &.eyesReft footer .right{ background-color: color(naranja); }
   }
 }

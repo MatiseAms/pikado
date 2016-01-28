@@ -77,11 +77,20 @@
 
   <div class="board">
     <ul>
-      <li ng-repeat="score in challenger.scores" ng-attr-data-score="{{score.score}}"><span>{{score.remaining}}</span></li>
+      <li ng-repeat="score in challenger.scores"><span ng-attr-data-score="{{score.score}}">{{score.remaining}}</span></li>
     </ul>
     <ul>
-      <li ng-repeat="score in challenged.scores" ng-attr-data-score="{{score.score}}"><span>{{score.remaining}}</span></li>
+      <li ng-repeat="score in challenged.scores"><span ng-attr-data-score="{{score.score}}">{{score.remaining}}</span></li>
     </ul>
   </div>
+
+  <footer>
+    <div class="left">
+      <span>{{challenger.scores[challenger.scores.length-1].remaining}}</span>
+    </div>
+    <div class="right">
+      <span>{{challenged.scores[challenged.scores.length-1].remaining}}</span>
+    </div>
+  </footer>
 
 </section>
