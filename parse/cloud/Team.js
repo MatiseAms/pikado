@@ -4,7 +4,7 @@ module.exports = {
 
     Parse.Cloud.run("checkExistsTeam", {teamId: request.params.teamId}).then(function(results){
       if(results>0){
-        Parse.Cloud.run("getTeam", {teamId: request.params.teamId}).then(function(results){
+        Parse.Cloud.run("getTeamByExternal", {teamId: request.params.teamId}).then(function(results){
           response.success(results);
         });
       }else{
@@ -42,9 +42,14 @@ module.exports = {
         var query = new Parse.Query(User);
         query.get(userId, {
           success: function(user) {
-            var relation  = team.relation("members");
-            relation.add(user);
-            team.save(null, {
+
+            var UserInTeam = Parse.Object.extend("UserInTeam");
+            var uit = new UserInTeam();
+
+            uit.set("user", user);
+            uit.set("team", team);
+            
+            uit.save(null, {
               success: function(team) {
                 response.success('user linked');
               },
@@ -83,7 +88,7 @@ module.exports = {
       }
     });
   },
-  get: function get(request, response){
+  getByExternalId: function getByExternalId(request, response){
     Parse.Cloud.useMasterKey();
 
     var Team = Parse.Object.extend("Team");
@@ -94,7 +99,7 @@ module.exports = {
         response.success(results[0]);
       },
       error: function(error){
-        response.error('error fetching customers');
+        response.error('error fetching members');
       }
     });
   }

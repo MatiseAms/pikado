@@ -27,7 +27,7 @@ module.exports = {
 
     Parse.Cloud.run("checkExistsUser", {email: username}).then(function(results){
       if(results>0){
-        Parse.Cloud.run("getUser", {email: username}).then(function(results){
+        Parse.Cloud.run("getUserByEmail", {email: username}).then(function(results){
           userObj = results;
         });
       }else{
@@ -47,10 +47,8 @@ module.exports = {
           success: function(user) {
             // Hooray! Let them use the app now.
             userObj = user;
-            console.log('user id: '+ userObj.id);
             Parse.Cloud.run("registerTeam", {teamId: team}).then(function(results){
               teamObject = results;
-              console.log('team id:  ' + teamObject.id);
               Parse.Cloud.run("linkUsertoTeam", {team: teamObject.id, user: userObj.id}).then(function(results){
                 response.success(results);
               });
@@ -81,15 +79,15 @@ module.exports = {
       }
     });
   },
-  get: function get(request, response){
+  getByEmail: function getByEmail(request, response){
     Parse.Cloud.useMasterKey();
 
     var User = Parse.Object.extend("User");
     var query = new Parse.Query(User);
     query.equalTo("username", request.params.email);
-    query.find({
-      success: function(results) {
-        response.error(results[0]);
+    query.first({
+      success: function(object) {
+        response.success(object);
       },
       error: function(error){
         response.error('error fetching customers');
