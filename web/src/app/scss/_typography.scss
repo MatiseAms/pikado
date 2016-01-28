@@ -1,0 +1,82 @@
+$main-font-weights: (
+	"Thin": 300,
+	"Light": 400,
+	"Bold": 700,
+	"Black": 900
+);
+
+$font-thin: map-get($main-font-weights,Thin);
+$font-light: map-get($main-font-weights,Light);
+$font-bold: map-get($main-font-weights,Bold);
+$font-black: map-get($main-font-weights,Black);
+
+// Base font
+$main-font: "VAG Rounded";
+$main-font-name: "VAGRoundedStd-";
+$main-font-family: #{$main-font},sans-serif;
+// include main font
+@include font-list($main-font,$main-font-name,$main-font-weights,normal);
+
+
+// $second-font: "AudiType Extended";
+// $second-font-name: "AudiType-Extended";
+// $second-font-family: #{$second-font},sans-serif;
+// include main font
+// @include font-list($second-font,$second-font-name,$main-font-weights,normal); */
+//
+// $social-font:"Audi Social"; */
+// $social-font-name: "audi-social"; */
+// $social-font-family: #{$social-font},sans-serif; */
+// include main font
+// @include font-include($social-font,$social-font-name,normal,normal); */
+
+*{ }
+
+// headers
+h1,h2,h3,h4,h5,h6{ font-family: $main-font-family; text-align: left; font-weight: $font-bold; padding: 0; margin: 0;
+	&.sub{ font-weight: $font-light; }
+}
+h1{ font-size: rem(40); line-height: rem(40); }
+h2{ font-size: rem(30); line-height: rem(40); }
+h3{ font-size: rem(16); line-height: rem(24); }
+h4{ font-size: rem(14); line-height: rem(14); font-family: $main-font-family; font-weight: normal; }
+h5{ font-size: rem(12); line-height: rem(12); }
+h6{ font-size: rem(10); line-height: rem(10); }
+
+// make fontweight classes
+@each $weight in $main-font-weights{
+	.font-#{nth($weight,1)}{ font-weight: #{nth($weight,2)}; }
+}
+
+// make font styles
+
+.font-bold,strong{ font-weight: $font-bold; }
+small{ font-size: smaller; }
+del{ text-decoration: line-through; }
+ins{ text-decoration: underline; }
+sub{ vertical-align: sub; font-size: smaller; }
+sup{ vertical-align: sup; font-size: smaller; }
+
+p{ margin: 0; padding: 0; font-size: rem(14); line-height: rem(26);
+	&.text-tiny{ font-size: rem(12); }
+	&.text-small{ font-size: rem(14); }
+	&.text-regular{ font-size: rem(16); }
+	&.text-large{ font-size: rem(18); }
+	&.text-xlarge{ font-size: rem(24); }
+}
+
+h1{
+  & + h3{ margin-top: 1rem; }
+}
+h2{
+  & + p{ margin-top: rem(20); }
+}
+h3{
+  & + h1{ margin-top: .75rem; }
+  & + p{ margin-top: rem(30); }
+  & + .row{ margin-top: 1rem !important; }
+}
+p{
+  & + p{ margin-top: .5rem; }
+  & + .button, & + button{ &, & + .button, & + button{ margin-top: 2rem; }}
+}

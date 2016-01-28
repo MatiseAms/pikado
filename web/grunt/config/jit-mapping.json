@@ -1,0 +1,6 @@
+{
+	"bower": "grunt-bower-task",
+	"ngtemplates": "grunt-angular-templates",
+	"configureRewriteRules": "grunt-connect-rewrite",
+	"htmlbuild": "grunt-html-build"
+}

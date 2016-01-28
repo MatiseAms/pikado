@@ -1,0 +1,38 @@
+$small-range: (0, map-get($breakpoints,'medium'));
+$medium-range: (map-get($breakpoints,'medium') + 1px, map-get($breakpoints,'large'));
+$large-range: (map-get($breakpoints,'large') + 1px, map-get($breakpoints,'xlarge'));
+$xlarge-range: (map-get($breakpoints,'xlarge') + 1px, map-get($breakpoints,'xxlarge'));
+$xxlarge-range: (map-get($breakpoints,'xxlarge') + 1px, map-get($breakpoints,'xlarge'));
+
+$screen: "only screen";
+$row-width: 1080px;
+
+$landscape: "#{$screen} and (orientation: landscape)";
+$portrait: "#{$screen} and (orientation: portrait)";
+
+$small-up: $screen;
+$small-only: "#{$screen} and (max-width: #{nth($small-range,2)})";
+
+$medium-up: "#{$screen} and (min-width:#{nth($medium-range,1)})";
+$medium-only: "#{$screen} and (min-width:#{nth($medium-range,1)}) and (max-width:#{nth($medium-range,2)})";
+$medium-down: "#{$screen} and (max-width:#{nth($medium-range,2)})";
+
+$large-up: "#{$screen} and (min-width:#{nth($large-range,1)})";
+$large-only: "#{$screen} and (min-width:#{nth($large-range,1)}) and (max-width:#{nth($large-range,2)})";
+$large-down: "#{$screen} and (max-width:#{nth($large-range,2)})";
+
+$xlarge-up: "#{$screen} and (min-width:#{nth($xlarge-range,1)})";
+$xlarge-only: "#{$screen} and (min-width:#{nth($xlarge-range,1)}) and (max-width:#{nth($xlarge-range,2)})";
+$xlarge-down: "#{$screen} and (max-width:#{nth($xlarge-range,2)})";
+
+$xxlarge-up: "#{$screen} and (min-width:#{nth($xxlarge-range,1)})";
+$xxlarge-only: "#{$screen} and (min-width:#{nth($xxlarge-range,1)}) and (max-width:#{nth($xxlarge-range,2)})";
+
+$tablet-up: "#{$screen} and (min-width:769px)";
+$tablet-down: "#{$screen} and (max-width:768px)";
+
+
+@media #{$small-only}{
+  .hide-for-small-only{ display: none; }
+}
+@media #{$medium-up}{ .hide-for-medium-up{ display: none; }}

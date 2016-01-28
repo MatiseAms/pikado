@@ -1,0 +1,90 @@
+// foundation
+@import
+  "global",
+  "settings",
+  "foundation";
+
+// main styles
+@import
+  "functions",
+  "legacy",
+  "mixins",
+  "colors",
+  "base",
+  "typography";
+
+body {
+  background-color: black;font-family: $main-font-family;
+}
+.canvas{ background: color(dark); position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); overflow: hidden; }
+
+
+section{
+  &#scoreboard{
+
+    header{ width: 100%; height: 50%; background: white; background: linear-gradient(to bottom, rgba(color(dark),1) 0%, rgba(color(dark),.3)  50%,rgba(color(dark),0) 90%); position: absolute; top: 0px; left: 0px; z-index: 100;
+      div{ height: 50%; position: absolute; top: 0px;
+        h2{ color: color(light); text-align: inherit; font-size: 3rem; position: relative; top: 50%; }
+        &.left{ width: 43%; left: 0; text-align: right; }
+        &.right{ width: 43%; right: 0; text-align: left; }
+        &.mid{ width: 14%; left: 43%; text-align: center;
+          //background-image: url('../img/pikado.svg'); background-size: 75%; background-position: center center; background-repeat: no-repeat;
+          svg{ max-width: 75%;
+            g{ transition: $transition;
+              &#eyeleft{
+                .pupil{ }
+              }
+              &#eyeright{
+                .pupil{ }
+              }
+            }
+            .turn-left &{
+              #eyeleft .pupil{ transform: translateX(-50%); }
+              #eyeright .pupil{ transform: translateX(-50%); }
+            }
+            .turn-right &{
+              #eyeleft .pupil{ transform: translateX(50%); }
+              #eyeright .pupil{ transform: translateX(50%); }
+            }
+            .turn-bad &{
+              #eyebrowleft{ transform: translateY(25%); }
+              #eyebrowright{ transform: translateY(25%); }
+            }
+            .turn-sad &{
+              #eyebrowleft{ transform: translateY(25%); }
+              #eyebrowright{ transform: translateY(25%); }
+              #eyeleft .pupil{ transform: translateY(50%); }
+              #eyeright .pupil{ transform: translateY(50%); }
+            }
+          }
+        }
+      }
+    }
+
+    .board{ position: absolute; bottom: 0px; left: 50%; transform: translateX(-50%); background: color(light); border-radius: 20px 20px 0 0; width: 45%; font-size: 0rem;
+      ul{ display: inline-block; padding: 5% 0; counter-reset: scores;
+        @include createElements(4,'width');
+        &:nth-child(2n){ background: rgba(color(dark),0.1); }
+        li{ counter-increment: scores; font-size: 3rem; text-align: right; padding: 0 30% 0 10%; position: relative;
+          &:before,&:after{ color: color(naranja); font-size: 2rem; display: inline-block; padding: 2%; position: absolute; width: 30%; text-align: center; margin-top: 5px;}
+          &:before{ content: none; }
+          &:after{ content: counter(scores); right: 0px;}
+
+          span{ position: relative;
+            &:before{ content:""; width: 120%; height: 10%; border-radius: 4px; background: color(naranja); display: block; position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%) rotate(-10deg); }
+          }
+          &:nth-child(2n){
+            span:before{ transform: translate(-50%,-50%) rotate(10deg);}
+          }
+          &:last-child span:before{ content: none; }
+        }
+        &:nth-child(2n){
+          li{ text-align: left; padding: 0 10% 0 30%;;
+            &:before{ content: counter(scores); left: 0px; }
+            &:after{ content: none; }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,93 @@
+@function strip-unit($num) {
+  @return $num / ($num * 0 + 1);
+}
+
+@function convert-to-rem($value, $base-value: $rem-base)  {
+  $value: strip-unit($value) / strip-unit($base-value) * 1rem;
+  @if ($value == 0rem) { $value: 0; } // Turn 0rem into 0
+  @return $value;
+}
+
+@function rem-calc($values, $base-value: $base-fontsize) {
+	$max: length($values);
+	@if $max == 1 {
+		@return convert-to-rem(nth($values, 1), $base-value);
+	}
+
+	$remValues: ();
+
+	@for $i from 1 through $max {
+		$remValues: append($remValues, convert-to-rem(nth($values, $i), $base-value));
+	}
+
+	@return $remValues;
+}
+@function rem($value){
+  $sizes: '';
+  @if length($value) > 1{
+    @each $size in $value{
+      $sizes: $sizes #{rem-calc($size)};
+    }
+  } @else {
+  	$sizes: rem-calc($value);
+  }
+	@return $sizes;
+}
+@function space($value){
+  $size: $value*$space;
+  @return rem-calc($size);
+}
+@function spc($value){
+  $size: space($value);
+  @return $size;
+}
+
+@function calculateRem($size) {
+  $remSize: $size / #{$base-fontsize}px;
+  @return $remSize * 1rem;
+}
+
+@function color($value){
+	$usecolor: $value;
+  $color: map-get($colors, $usecolor);
+  @return $color;
+}
+
+
+@function social($value){
+	$color: map-get($social-colors, $value);
+	@return $color;
+}
+
+
+@function grid-size($value){
+	$size: map-get($grid-size,$value);
+	@return $size;
+}
+
+// List Functions
+
+@function prepend($list, $value) {
+	@return join($value, $list);
+}
+
+@function to-string($list, $glue: '', $is-nested: false) {
+  $result: null;
+
+  @for $i from 1 through length($list) {
+    $e: nth($list, $i);
+
+    @if type-of($e) == list {
+      $result: $result#{to-string($e, $glue, true)};
+    }
+
+    @else {
+      $result: if($i != length($list) or $is-nested, $result#{$e}#{$glue}, $result#{$e});
+    }
+  }
+
+  @return $result;
+}
+@function to-list($value) {
+  @return if(type-of($value) != list, ($value,), $value);
+}
