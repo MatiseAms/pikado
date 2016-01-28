@@ -1,5 +1,5 @@
 angular.module('Pikado')
-	.controller('ScoreboardController', ['$scope', '$stateParams', function($scope, $stateParams) {
+	.controller('ScoreboardController', ['$scope', '$stateParams', 'PusherService', function($scope, $stateParams, PusherService) {
 		'use strict';
 
 		var self = this;
@@ -18,7 +18,15 @@ angular.module('Pikado')
 			eyes: 'eyesLeft'
 		});
 
-
+		// Listen to toggle live status
+		PusherService.bind('newScore', function(evt) {
+			if(evt.feedObject.user.objectId===$scope.challenger.id){
+				$scope.challenger.scores.push({remaining: evt.feedObject.remaining, score: evt.feedObject.score});
+			}else if(evt.feedObject.user.objectId===$scope.challenged.id){
+				$scope.challenged.scores.push({remaining: evt.feedObject.remaining, score: evt.feedObject.score});
+			}
+			$scope.$applyAsync();
+		});
 
 		var Game = Parse.Object.extend("Game");
 		var query = new Parse.Query(Game);
@@ -49,7 +57,9 @@ angular.module('Pikado')
 
 				}
 				if($scope.challenger.scores.length>$scope.challenged.scores.length){
-					// $scope.challenger.scores.length;
+					$scope.eyes = "eyesLeft";
+				}else{
+					$scope.eyes = "eyesRight";
 				}
 				$scope.$applyAsync();
 			});

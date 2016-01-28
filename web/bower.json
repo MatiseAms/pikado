@@ -5,7 +5,8 @@
     "angular-ui-router": "~0.2.17",
     "foundation-sites": "~6.1.2",
     "parse": "~1.6.13",
-    "modernizr": "2.8.3"
+    "modernizr": "2.8.3",
+    "pusher": "~3.0.0"
   },
   "exportsOverride": {
     "foundation": {

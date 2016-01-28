@@ -1,3 +1,5 @@
+var Pusher = require('cloud/pusher/pusher.js');
+
 module.exports = {
   submit: function submit(request, response) {
 
@@ -49,5 +51,22 @@ module.exports = {
       response.error(error);
     });
 
-  }
+  },
+  afterSave: function afterSave(request) {
+     if (!request.object.existed()) {
+        var score = request.object,
+            pusher = new Pusher({
+                appId: '174471',
+                key: '6d519dd40253cd6ef8cb',
+                secret: 'cd12333c22da9fb0a78a'
+            });
+
+        pusher.trigger('score', 'newScore', {
+          scoreId: score.id,
+          feedObject: score
+        }, null, function(evt) {
+          console.log(evt);
+        });
+      }
+    }
 };
