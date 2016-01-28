@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>
+		Pikado
+	</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" href="/css/app.css">
+
+	<script>
+		var Browser = {
+			isIE: false
+		};
+	</script>
+	<!-- By default we will assume that the browser is not IE -->
+	<!--[if IE 5]><script>Browser = {isIE:true,version:5};</script><![endif]-->
+	<!--[if IE 6]><script>Browser = {isIE:true,version:6};</script><![endif]-->
+	<!--[if IE 7]><script>Browser = {isIE:true,version:7};</script><![endif]-->
+	<!--[if IE 8]><script>Browser = {isIE:true,version:8};</script><![endif]-->
+	<!--[if IE 9]><script>Browser = {isIE:true,version:9};</script><![endif]-->
+	<base href="/">
+</head>
+
+<body ng-app="Pikado" class="ng-cloak">
+
+	<div ui-view="header"></div>
+	<div ui-view="content"></div>
+	<div ui-view="footer"></div>
+
+	<!-- build:remove dist,staging -->
+	<script src="vendor/parse.js"></script>
+	<script src="vendor/pusher.js"></script>
+	<script src="vendor/modernizr.js"></script>
+	<script src="vendor/jquery.js"></script>
+	<script src="vendor/angular.js"></script>
+	<script src="vendor/angular-ui-router.js"></script>
+	<!-- /build -->
+
+	<!-- build:remove dev -->
+	<script src="/vendor.js"></script>
+	<!-- /build -->
+
+	<script src="/Pikado.js"></script>
+
+</body>
+
+</html>

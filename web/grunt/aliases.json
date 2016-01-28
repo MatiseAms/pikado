@@ -1,0 +1,42 @@
+{
+	"default": [
+		"notify",
+		"dev",
+		"browserSync",
+		"watch"
+	],
+	"dev": [
+		"jshint:src",
+		"clean:dist",
+		"concat:scripts",
+		"copy:html",
+		"htmlbuild:dev",
+		"copy:vendor",
+		"copy:images",
+		"copy:fonts",
+		"ngtemplates:dev",
+		"sass:dist",
+		"postcss"
+	],
+	"dist": [
+		"clean:dist",
+		"concat:scripts",
+		"copy:html",
+		"htmlbuild:dist",
+		"concat:dist",
+		"copy:images",
+		"copy:fonts",
+		"ngtemplates:dist",
+		"sass:dist",
+		"postcss"
+	],
+	"cssmagic": [
+		"csscomb:dynamic_mappings"
+	],
+	"doedingen": [
+		"clean:bower",
+		"clean:vendor",
+		"shell:bowerinstall",
+		"bower"
+	]
+}
