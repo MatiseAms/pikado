@@ -15,17 +15,20 @@ angular.module('Pikado')
 				name: "",
 				scores: []
 			},
+			game: $stateParams.id,
 			eyes: 'eyesLeft'
 		});
 
 		// Listen to toggle live status
 		PusherService.bind('newScore', function(evt) {
-			if(evt.feedObject.user.objectId===$scope.challenger.id){
-				$scope.challenger.scores.push({remaining: evt.feedObject.remaining, score: evt.feedObject.score});
-			}else if(evt.feedObject.user.objectId===$scope.challenged.id){
-				$scope.challenged.scores.push({remaining: evt.feedObject.remaining, score: evt.feedObject.score});
+			if($scope.game===evt.feedObject.game.objectId){
+				if(evt.feedObject.user.objectId===$scope.challenger.id){
+					$scope.challenger.scores.push({remaining: evt.feedObject.remaining, score: evt.feedObject.score});
+				}else if(evt.feedObject.user.objectId===$scope.challenged.id){
+					$scope.challenged.scores.push({remaining: evt.feedObject.remaining, score: evt.feedObject.score});
+				}
+				$scope.$applyAsync();
 			}
-			$scope.$applyAsync();
 		});
 
 		var Game = Parse.Object.extend("Game");
