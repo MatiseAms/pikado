@@ -3,7 +3,7 @@ var Pusher = require('cloud/pusher/pusher.js');
 module.exports = {
   submit: function submit(request, response) {
 
-    var userObj, remaining;
+    var userObj, remaining, inputScore, scoreObj, feedback;
     // init the mofo score
     var Score = Parse.Object.extend("Score");
 
@@ -22,7 +22,8 @@ module.exports = {
       }
     }).then(function(score){
       if(score!==undefined){
-        remaining = score.get("remaining");
+        scoreObj=score;
+        remaining = scoreObj.get("remaining");
         inputScore = parseInt(request.params.score);
 
         remaining = remaining-inputScore;
@@ -33,20 +34,46 @@ module.exports = {
           newScore.set("score", inputScore);
           newScore.set("remaining", remaining);
           newScore.set("user",userObj);
-          newScore.set("game",score.get("game"));
+          newScore.set("game",scoreObj.get("game"));
 
           newScore.save(null);
 
-          if(remaining>0){
-            return 'Score submitted, you have '+remaining+' points remaining';
-          }else{
-            Parse.Cloud.run("finishGame", {id: score.get("game").id});
-            return 'We have a winner, congratulations @'+userObj.get('slackUsername')+'!';
+          if(remaining===0){
+            Parse.Cloud.run("finishGame", {id: scoreObj.get("game").id});
           }
+
         }
       }
+    }).then(function(score){
+
+      // for the feedback
+      var opponentScore = new Score();
+      var opponentQuery = new Parse.Query(opponentScore);
+      opponentQuery.equalTo("game", scoreObj.get("game"));
+      opponentQuery.include("user");
+      opponentQuery.notEqualTo("user", userObj);
+      opponentQuery.descending("createdAt");
+
+      return opponentQuery.find();
+    }).then(function(results){
+      var opponentResult = results[0];
+      var opponent = opponentResult.get('user');
+
+      feedback = {
+        scored: {
+          name: userObj.get('realName'),
+          userName: userObj.get('slackUsername'),
+          remaining: remaining
+        },
+        next: {
+          name: opponent.get('realName'),
+          userName: opponent.get('slackUsername'),
+          remaining: opponentResult.get('remaining')
+        }
+      };
+      return feedback;
     }).then(function(msg){
-      response.success(msg);
+      response.success(JSON.stringify(msg));
     },function(error){
       response.error(error);
     });

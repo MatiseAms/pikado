@@ -26,8 +26,37 @@ module.exports = (robot) ->
         data = null
         try
           data = JSON.parse body
+          result = JSON.parse data.result
           if data.result
-            res.send data.result
+            if result.scored.remaining>0
+              replyTxt = "Score submitted @"+result.scored.userName+", you have "+result.scored.remaining+" points remaining"
+            else
+              replyTxt = "We have a winner, congratulations @"+result.scored.userName+"!"
+
+            msgData = {
+              channel: res.message.room
+              text: replyTxt,
+              attachments: [
+                {
+                    "fallback": "Score submitted @"+result.scored.userName+", you have "+result.scored.remaining+" points remaining",
+                    "fields": [
+                        {
+                            "title": result.scored.name,
+                            "value": result.scored.remaining,
+                            "short": true
+                        },
+                        {
+                            "title": result.next.name,
+                            "value": result.next.remaining,
+                            "short": true
+                        }
+                    ],
+                    "color": "good"
+                }
+              ]
+            }
+            # post the message
+            robot.adapter.customMessage msgData
         catch error
          res.send "Ran into an error parsing JSON :("
          return
